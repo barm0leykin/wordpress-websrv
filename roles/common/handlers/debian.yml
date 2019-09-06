@@ -1,0 +1,18 @@
+---
+  - name: Start netfilter (iptables) service Debian/Ubuntu
+    service:
+      name: netfilter-persistent.service
+      state: started
+    listen:
+      - "start iptables"
+      - "save iptables"
+
+  - name: Save iptables Debian/Ubuntu
+    #shell: "service netfilter-persistent save warn=no"
+    script: files/iptables_save_deb.sh
+    listen: "save iptables"
+
+  - name: Restart sshd
+    service:
+      name: sshd
+      state: restarted

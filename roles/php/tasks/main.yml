@@ -1,0 +1,16 @@
+---
+  - name: installing PHP packages
+    package:
+      pkg: "{{ php_packages }}"
+      update_cache: yes
+    tags: ["dev", "php", "packages"]
+
+  - name: Updating php.ini config
+    template:
+      src: php.ini.j2
+      dest: /etc/php/{{ php.version }}/fpm/php.ini
+      owner: root
+      group: root
+      mode: 0644
+    tags: ["websrv-deploy"]
+    notify: Reload nginx

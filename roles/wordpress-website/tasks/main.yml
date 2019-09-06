@@ -1,0 +1,41 @@
+---
+  - name: Updating phpmyadmin.conf
+    template:
+      src: phpmyadmin.conf.j2
+      dest: /etc/nginx/snippets/phpmyadmin.conf
+      owner: root
+      group: root
+      mode: 0644
+    tags: ["websrv-deploy"]
+    notify: Reload php-fpm
+
+  - name: Updating webapps configs
+    template:
+      src: webapp.conf.j2
+      dest: /etc/nginx/sites-available/{{ item }}.conf
+      owner: root
+      group: root
+      mode: 0644
+    with_items:
+      - "{{web_hosts}}"
+    tags: ["websrv-deploy"]
+    notify: Reload nginx
+
+  - name: Simlink {{ item }} virtualhost
+    file:
+      src: /etc/nginx/sites-available/{{ item }}.conf
+      dest: /etc/nginx/sites-enabled/{{ item }}.conf
+      state: link
+    with_items:
+      - "{{web_hosts}}"
+    tags: ["websrv-deploy"]
+    notify: Reload nginx
+
+  ### Нужно для того, чтобы в админке появился раздел "ссылки"
+  - name: Copy linx.php
+    copy:
+      src: files/linx.php
+      dest: /var/www/{{ item }}/wp-content/mu-plugins/linx.php
+    with_items:
+      - "{{web_hosts}}"
+    tags: ["websrv-deploy"]

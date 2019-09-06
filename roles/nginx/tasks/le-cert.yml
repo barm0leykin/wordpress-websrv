@@ -1,0 +1,53 @@
+---
+  - name: Update apt cache
+    apt: update_cache=yes
+
+  - name: Install repos
+    apt_repository:
+      repo: "{{ item }}"
+      state: present
+      update_cache: yes
+    with_items:
+      - "deb http://archive.ubuntu.com/ubuntu/ bionic universe"
+      - "ppa:certbot/certbot"
+    tags: ["ssl-cert"]
+
+  - name: Install Certbot.
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - "software-properties-common"
+      - "certbot"
+      - "python-certbot-nginx"
+    tags: ["ssl-cert"]
+    #################################################################################
+  - name: Check for certificate
+    stat:
+      path: "{{ le_ssl_dir }}/{{ vhosts[0] }}.{{ domain_name }}/fullchain.pem"
+    register: stat_fullchain_pem
+    tags: ["ssl-cert", "create-cert"]
+
+  - debug:
+      msg: "Cert exists status: {{ stat_fullchain_pem.stat.exists }}, path is: {{ stat_fullchain_pem.stat.path }}"
+    when: stat_fullchain_pem.stat.exists == 1
+    tags: ["ssl-cert", "create-cert"]
+
+  - name: Get SSL certificate
+    shell: certbot certonly --agree-tos-d {{ item }} --webroot-w{{ le_root_directory }} -m {{ le_email }} {% if le_dry_run %}--dry-run {% endif %}
+    when: stat_fullchain_pem.stat.exists == 0
+    with_items:
+      - "{{ vhosts }}.{{ domain_name }} "
+    notify: Reload nginx
+    tags: ["ssl-cert", "create-cert"]
+
+  - name:  Cron update SSL certificate
+    cron:
+      name: "Update SSL certificate"
+      month: 2
+      job: root certbot renew #{% if le_dry_run %} --dry-run {% endif %}
+      state: present
+    when:
+      - stat_fullchain_pem.stat.exists == 0
+      - le_dry_run == 0
+    tags: ["ssl-cert", "create-cert"]

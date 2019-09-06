@@ -1,0 +1,13 @@
+---
+  - name: Start netfilter (iptables) service RHEL/CentOS
+    service:
+      name: iptables.service
+      state: started
+    listen:
+      - "start iptables"
+      - "save iptables"
+
+  - name: Save iptables RHEL/CentOS
+    script: files/iptables_save_rh.sh
+    #shell: "iptables-save | sudo tee /etc/sysconfig/iptables warn=no"
+    listen: "save iptables"

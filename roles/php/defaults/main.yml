@@ -1,0 +1,22 @@
+---
+  php:
+    version: 7.3
+    upload_max_filesize: 20M
+    memory_limit: 256M
+    max_execution_time: 360
+    date.timezone: Europe/Moscow
+    packages:
+      - php{{ version }}
+        php{{ version }}-common
+        php{{ version }}-mbstring
+        php{{ version }}-xmlrpc
+        php{{ version }}-soap
+        php{{ version }}-gd
+        php{{ version }}-xml
+        php{{ version }}-intl
+        php{{ version }}-mysql
+        php{{ version }}-cli
+        php{{ version }}-zip
+        php{{ version }}-curl
+      - php{{ version }}-bcmath
+      - php{{ version }}-imagick

@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: common
+  author: barm0leykin
+  description: basic server config
+  license: license BSD
+  min_ansible_version: 1.2
+  galaxy_tags: [common]
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: RedHat
+      versions:
+        - all

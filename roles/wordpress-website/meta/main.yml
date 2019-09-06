@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: websrv_deploy
+  author: barm0leykin
+  description: simple website role
+  license: license BSD
+  min_ansible_version: 1.2
+  galaxy_tags: [website]
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: RedHat
+      versions:
+        - all
+
+dependencies:
+  - role: nginx
+    #  {% if letsencrypt_enabled == true %} 
+    #  {% endif %}

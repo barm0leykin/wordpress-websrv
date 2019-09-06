@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  role_name: ngix
+  author: barm0leykin
+  description: simple nginx role
+  license: license BSD
+  min_ansible_version: 1.2
+  galaxy_tags: [nginx]
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: RedHat
+      versions:
+        - all
+
+dependencies:
+  - role: common

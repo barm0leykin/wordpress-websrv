@@ -1,0 +1,8 @@
+---
+  mysql:
+    db_name: wp_kgdp
+    db_password: 123
+    packages:
+      - mysql-server
+      - python-pymysql
+      - python-mysqldb

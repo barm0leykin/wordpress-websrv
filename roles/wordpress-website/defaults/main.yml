@@ -1,0 +1,8 @@
+---
+  nginx_root_directory: /var/www
+  domain_name: rzdp.ru
+  website_name: kgdp
+  web_hosts: [kgdp]
+  letsencrypt_enabled: false
+
+

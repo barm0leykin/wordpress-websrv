@@ -1,0 +1,51 @@
+---
+#  - name: install PHP
+#    raw: sudo apt -y update && sudo apt install -y python-minimal && update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+#    tags: ["common", "php"]
+
+  - name: installing common packages
+    package:
+      pkg: "{{ packages }}"
+      update_cache: yes
+    tags: ["common", "packages"]
+
+  - name: include Debian tasks
+    include: debian.yml
+    when: (ansible_os_family == "Debian")
+    tags: ["common"]
+
+  - name: include RedHat tasks
+    include: redhat.yml
+    when: (ansible_os_family == "RedHat")
+    tags: ["common"]
+
+  - name: Gathering facts
+    setup: filter='*'
+    tags: ["common"]
+
+  - name: include iptables task
+    include: iptables.yml
+    tags: ["common", "iptables"]
+
+  - name: include ssh task
+    include: ssh.yml
+    tags: ["common", "ssh"]
+
+  - name: Set timezone to Europe/Moscow
+    timezone:
+      name: Europe/Moscow
+    tags: ["common"]
+
+  - name: Copy files to root profile
+    copy:
+      src: files/profile/
+      dest: ~/
+      mode: preserve
+    tags: ["common", "copy"]
+
+  - name: Copy files to skel
+    copy:
+      src: files/profile/
+      dest: /etc/skel/
+      mode: preserve
+    tags: ["common", "copy"]

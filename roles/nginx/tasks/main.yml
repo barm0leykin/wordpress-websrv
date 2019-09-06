@@ -1,0 +1,59 @@
+---
+
+  - name: Install Nginx
+    package:
+      pkg: nginx
+      state: present
+      update_cache: yes
+    tags: ["nginx"]
+
+  - name: Copy files
+    copy:
+      src: files/{{ item }}
+      dest: /etc/nginx/sites-available/
+    with_items:
+      - ssl.conf
+    tags: ["nginx"]
+
+  - name: Updating nginx.conf
+    template:
+      src: nginx.conf.j2
+      dest: /etc/nginx/nginx.conf
+      owner: root
+      group: root
+      mode: 0644
+    tags: ["nginx"]
+    notify: Restart nginx
+
+  - name: Updating default.conf
+    template:
+      src: default.conf.j2
+      dest: /etc/nginx/sites-available/default
+      owner: root
+      group: root
+      mode: 0644
+    tags: ["nginx"]
+    notify: Reload nginx
+
+  - name: iptables HTTP 80
+    iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: 80
+      jump: ACCEPT
+    notify: save iptables
+    tags: ["nginx", "iptables", "nginx_iptables"]
+
+  - name: iptables HTTPS 443
+    iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: 443
+      jump: ACCEPT
+    notify: save iptables
+    tags: ["nginx", "iptables", "nginx_iptables"]
+
+  - name: include Letsencrypt tasks
+    include: le-cert.yml
+    when: (letsencrypt_enabled == 1)
+    tags: ["nginx", "ssl-cert"]

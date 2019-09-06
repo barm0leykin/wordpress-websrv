@@ -1,0 +1,31 @@
+---
+ 
+  - name: SSH TCPKeepAlive {{ ssh.TCPKeepAlive }}
+    lineinfile: 
+      dest: /etc/ssh/sshd_config
+      state: present
+      regexp: '^TCPKeepAlive' 
+      line: TCPKeepAlive {{ ssh.TCPKeepAlive }}
+    notify:
+      - Restart sshd
+    tags: ["ssh"]
+
+  - name: SSH ClientAliveInterval {{ ssh.ClientAliveInterval}}
+    lineinfile: 
+      dest: /etc/ssh/sshd_config
+      state: present
+      regexp: '^ClientAliveInterval' 
+      line: ClientAliveInterval {{ ssh.ClientAliveInterval}}
+    notify:
+      - Restart sshd
+    tags: ["ssh"]
+
+  - name: SSH ClientAliveCountMax {{ ssh.ClientAliveCountMax }}
+    lineinfile: 
+      dest: /etc/ssh/sshd_config
+      state: present
+      regexp: '^ClientAliveCountMax ' 
+      line: ClientAliveCountMax {{ ssh.ClientAliveCountMax }}
+    notify:
+      - Restart sshd
+    tags: ["ssh"]        

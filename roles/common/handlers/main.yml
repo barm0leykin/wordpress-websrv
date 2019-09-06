@@ -1,0 +1,10 @@
+---
+  - name: include Debian handlers
+    include: debian.yml
+    when: (ansible_os_family == "Debian")
+    tags: ["common"]
+
+  - name: include RedHat handlers
+    include: redhat.yml
+    when: (ansible_os_family == "RedHat")
+    tags: ["common"]

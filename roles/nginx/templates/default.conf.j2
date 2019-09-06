@@ -1,0 +1,17 @@
+server{
+
+  listen {{nginx.listen_http}};
+
+  server_name default.{{domain_name}};
+
+  location /nginx_status {
+	stub_status on;
+	access_log off;
+    allow {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }};
+	deny all;
+  }
+
+  location /.well-known/ {
+    root {{nginx.root_directory}};
+  }
+}

@@ -1,0 +1,27 @@
+---
+  ssh:
+    TCPKeepAlive: 'yes'
+    ClientAliveInterval: 300
+    ClientAliveCountMax: 288
+
+  deb_packages:
+    - iptables-persistent
+    - aptitude
+
+  rh_packages:
+    - epel-release
+    - iptables-services
+
+  packages:
+    - iptables
+    - htop
+    - curl
+    - git
+    - vim
+    - nano
+    - unzip
+    - sudo
+    - curl
+    - net-tools
+    - telnet
+    - sshpass

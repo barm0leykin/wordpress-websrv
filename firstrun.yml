@@ -1,0 +1,18 @@
+---
+- hosts: all
+  gather_facts: False
+  become: yes
+  become_method: sudo
+
+  tasks:
+    #- name: install python2
+    #  raw: sudo apt -y update && sudo apt install -y python2.7-minimal && update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+
+    # See: https://github.com/geerlingguy/drupal-vm/issues/1245
+    - name: Install Python if it's not available.
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      register: output
+      changed_when: output.stdout != ""
+
+    - action: setup
+      tags: ['always']

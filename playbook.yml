@@ -1,0 +1,14 @@
+---
+- hosts: all
+  gather_facts: yes
+  vars:
+    #- become: yes
+    #- become_user: root
+#    - ansible_user: ak
+  roles:
+    - common
+    - php
+    - nginx
+    - wordpress-website
+#    - cloudalchemy.node-exporter
+    - undergreen.prometheus-node-exporter

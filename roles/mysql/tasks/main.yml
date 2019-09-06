@@ -1,0 +1,26 @@
+---
+  - name: Install MySQL DB server
+    package:
+      name: "{{ mysql_packages }}"
+      state: latest
+    tags: ["mysql", "packages"]
+
+  - name: Create a new database
+    mysql_db:
+      name: "{{ db_name }}"
+      encoding: utf8
+      state: present
+      #config_file: /root/.my.cnf
+      #login_user: root
+      #login_password: "QWErty123"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+    tags: ["mysql", "db_config"]
+
+  - name: Create database user with password and all database privileges and 'WITH GRANT OPTION'
+    mysql_user:
+      name: "{{ db_name }}"
+      password: "{{ db_password }}"
+      priv: 'root.*:ALL,GRANT'
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      state: present
+    tags: ["mysql", "db_config"]
