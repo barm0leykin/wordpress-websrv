@@ -18,8 +18,8 @@
 
   - name: Create database user with password and all database privileges and 'WITH GRANT OPTION'
     mysql_user:
-      name: "{{ db_name }}"
-      password: "{{ db_password }}"
+      name: "{{ mysql.db_name }}"
+      password: "{{ mysql.db_password }}"
       priv: 'root.*:ALL,GRANT'
       login_unix_socket: /var/run/mysqld/mysqld.sock
       state: present

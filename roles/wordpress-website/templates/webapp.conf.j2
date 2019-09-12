@@ -14,7 +14,6 @@ server{
     log_not_found off;
     access_log off;
   }
-
   location = /robots.txt {
     allow all;
     log_not_found off;
@@ -44,8 +43,15 @@ server{
     log_not_found off;
   }
 
+  location /nginx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+
   include snippets/phpmyadmin.conf;
 
-  error_log {{nginx.log_path}}/{{ website_name }}_error.log;
-  access_log {{nginx.log_path}}/{{ website_name }}_access.log;
+  error_log {{nginx.log_path}}/{{ item }}_error.log;
+  access_log {{nginx.log_path}}/{{ item }}_access.log;
 }

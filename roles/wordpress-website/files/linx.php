@@ -1,4 +1,4 @@
-// Включает раздел "ссылки" в админке
+<!-- Включает раздел "ссылки" в админке -->
 <?php
 add_filter( 'pre_option_link_manager_enabled', '__return_true' );
 ?>

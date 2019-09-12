@@ -3,7 +3,7 @@
     package:
       pkg: "{{ php_packages }}"
       update_cache: yes
-    tags: ["dev", "php", "packages"]
+    tags: ["php", "packages"]
 
   - name: Updating php.ini config
     template:
@@ -12,5 +12,5 @@
       owner: root
       group: root
       mode: 0644
-    tags: ["websrv-deploy"]
-    notify: Reload nginx
+    tags: ["php"]
+##    notify: Reload nginx

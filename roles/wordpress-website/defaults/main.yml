@@ -1,8 +1,11 @@
 ---
-  nginx_root_directory: /var/www
+  nginx:
+    root_directory: /var/www
+    log_path: /var/log/nginx
   domain_name: rzdp.ru
   website_name: kgdp
   web_hosts: [kgdp]
   letsencrypt_enabled: false
+  copy_linx.php: false
 
 

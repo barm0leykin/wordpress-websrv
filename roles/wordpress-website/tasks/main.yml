@@ -7,7 +7,7 @@
       group: root
       mode: 0644
     tags: ["websrv-deploy"]
-    notify: Reload php-fpm
+    notify: Reload nginx
 
   - name: Updating webapps configs
     template:
@@ -31,11 +31,14 @@
     tags: ["websrv-deploy"]
     notify: Reload nginx
 
-  ### Нужно для того, чтобы в админке появился раздел "ссылки"
+  # Активирует обязательный плагин. Нужно для того, чтобы в админке появился раздел "ссылки"
+  # !Есть косяк - при его активации сползает форматирование в IE, в остальных браузерах норм.
+  #  можно содержание этого файла поместить в тему: wp-content/themes/twentyeleven/functions.php, тогда тоже норм
   - name: Copy linx.php
     copy:
       src: files/linx.php
       dest: /var/www/{{ item }}/wp-content/mu-plugins/linx.php
     with_items:
       - "{{web_hosts}}"
+    when: copy_linx.php == true
     tags: ["websrv-deploy"]
