@@ -1,6 +1,6 @@
-# KGDP
+# ..
 
-
+``
 aptitude install php7.3
 
 aptitude install mariadb-server mariadb-client
@@ -31,6 +31,7 @@ vi /etc/php/7.3/fpm/php.ini
 chmod -R 644 kgdp/
 Устанавливаем права для папок. Необходим флаг "выполнение"
 find kgdp/ -type d -exec chmod 755 {} \;
+```
 
 ####################################
 https://websiteforstudents.com/install-nginx-mariadb-and-php-7-2-fpm-with-phpmyadmin-on-ubuntu-16-04-18-04-18-10-lemp-phpmyadmin/
